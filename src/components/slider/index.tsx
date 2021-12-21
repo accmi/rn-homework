@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {Animated, FlatList, Image, View} from 'react-native';
+import {Animated, Image, View} from 'react-native';
 import {Indicator} from './indicator';
 import {styles} from './styles';
 

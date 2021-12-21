@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {useQuery} from 'react-query';
-import {SafeAreaView, ActivityIndicator, View} from 'react-native';
+import {
+  SafeAreaView,
+  ActivityIndicator,
+  View,
+  RefreshControl,
+} from 'react-native';
 import {CatalogComponent} from './components/catalog';
 import {SearchComponent} from './components/search';
 import {getProducts} from '../../utils/API';
@@ -10,8 +15,17 @@ import {styles} from './styles';
 
 export const MainScreen = () => {
   const [searchInput, setSearchInput] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
   const query = useQuery('products', getProducts);
   const products = query?.data?.products;
+  const {refetch} = query;
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    refetch().then(() => {
+      setRefreshing(false);
+    });
+  }, [refetch]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -21,7 +35,17 @@ export const MainScreen = () => {
           <ActivityIndicator color={colors.blue} size="large" />
         </View>
       ) : (
-        <CatalogComponent products={products || []} />
+        <CatalogComponent
+          products={products || []}
+          refreshControll={
+            <RefreshControl
+              onRefresh={onRefresh}
+              refreshing={refreshing}
+              colors={[colors.blue]}
+              tintColor={colors.blue}
+            />
+          }
+        />
       )}
     </SafeAreaView>
   );

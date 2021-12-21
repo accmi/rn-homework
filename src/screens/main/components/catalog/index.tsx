@@ -1,16 +1,18 @@
 import React from 'react';
 import {View, Text, Image, FlatList} from 'react-native';
 import {PriceComponent} from '../../../../components/price';
-import {ProductsResponseProducts} from '../../../../utils/API';
+import {ProductsResponseProduct} from '../../../../utils/API';
 
 import {styles} from './styles';
 
 interface CatalogComponentProps {
-  products: ProductsResponseProducts[];
+  products: ProductsResponseProduct[];
+  refreshControll: React.ReactElement;
 }
 
 export const CatalogComponent: React.FC<CatalogComponentProps> = ({
   products,
+  refreshControll,
 }) => {
   return (
     <FlatList
@@ -19,6 +21,7 @@ export const CatalogComponent: React.FC<CatalogComponentProps> = ({
       numColumns={2}
       keyExtractor={item => item.id}
       contentInset={{bottom: 50}}
+      refreshControl={refreshControll}
       renderItem={({item}) => (
         <View style={styles.container}>
           <Image

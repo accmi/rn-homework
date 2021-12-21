@@ -7,7 +7,7 @@ const queryClient = new QueryClient();
 
 export const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
-    {/* <MainScreen /> */}
-    <ProductScreen />
+    <MainScreen />
+    {/* <ProductScreen /> */}
   </QueryClientProvider>
 );
