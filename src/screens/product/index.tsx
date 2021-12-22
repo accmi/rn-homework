@@ -6,15 +6,17 @@ import {
   View,
   TouchableOpacity,
   Pressable,
+  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 
 import {PriceComponent} from '../../components/price';
 import {SeparatorComponent} from '../../components/separator';
+import {SliderComponent} from '../../components/slider';
 import {getProduct} from '../../utils/API';
 
 import {styles} from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SliderComponent } from '../../components/slider';
+import { colors } from '../../config/colors';
 
 enum ProductColors {
   BLUE = 'Blue',
@@ -24,10 +26,18 @@ enum ProductColors {
 
 export const ProductScreen = () => {
   const [selectedColor, setSelectedColor] = useState(ProductColors.BLUE);
-  const {data: product} = useQuery('product', () => getProduct());
+  const {data: product, isLoading} = useQuery('product', () => getProduct());
   const colorButtonDidPress = () => {
     //
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.indicator}>
+        <ActivityIndicator color={colors.blue} size="large" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>

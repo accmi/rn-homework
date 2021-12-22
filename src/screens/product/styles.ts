@@ -74,4 +74,9 @@ export const styles = StyleSheet.create({
     letterSpacing: 1.25,
     color: colors.white,
   },
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
