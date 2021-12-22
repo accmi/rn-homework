@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, Text} from 'react-native';
 
 import {styles} from './styles';
@@ -23,7 +23,7 @@ const getRandomOffer = (price: number): OfferedPrice => {
   };
 };
 
-export const PriceComponent: React.FC<PriceComponentProps> = ({price}) => {
+export const PriceComponent: React.FC<PriceComponentProps> = memo(({price}) => {
   const {newPrice, oldPrice, offer} = getRandomOffer(price);
 
   return (
@@ -33,4 +33,4 @@ export const PriceComponent: React.FC<PriceComponentProps> = ({price}) => {
       <Text style={styles.offer}>{offer} Off</Text>
     </View>
   );
-};
+});

@@ -35,6 +35,17 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginRight: 10,
+    borderWidth: 1,
+    borderColor: colors.btnBackgroundGray,
+  },
+  btnBlueActive: {
+    borderColor: colors.blue,
+  },
+  btnGreenActive: {
+    borderColor: colors.green,
+  },
+  btnOrangeActive: {
+    borderColor: colors.orange,
   },
   colorText: {
     fontSize: 15,

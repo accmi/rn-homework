@@ -1,22 +1,10 @@
-import React, {useRef} from 'react';
-import {
-  Animated,
-  FlatList,
-  Image,
-  View,
-  TouchableOpacity,
-  ViewToken,
-} from 'react-native';
+import React, {useRef, useEffect, FC} from 'react';
+import {Animated, FlatList, Image, View, TouchableOpacity} from 'react-native';
 import {Indicator} from './indicator';
 import {styles} from './styles';
 
 import LeftArrow from '../../assets/leftArrow.svg';
 import RightArrow from '../../assets/rightArrow.svg';
-
-type onViewableItemsChangedType = (info: {
-  viewableItems: ViewToken[];
-  changed: ViewToken[];
-}) => void;
 
 const IMAGES = [
   'https://picsum.photos/250/250',
@@ -25,36 +13,48 @@ const IMAGES = [
   'https://picsum.photos/250/250',
 ];
 
-export const SliderComponent = () => {
+interface SliderComponentProps {
+  containerWidth: number;
+}
+
+export const SliderComponent: FC<SliderComponentProps> = ({containerWidth}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<string> | null>();
-  let currentIndex = 0;
+  const currentIndex = useRef(0);
+
+  useEffect(() => {
+    scrollX.addListener(({value}) => {
+      const slideSize = containerWidth;
+      const index = value / slideSize;
+      const roundIndex = Math.round(index);
+
+      currentIndex.current = roundIndex;
+    });
+
+    return () => {
+      scrollX.removeAllListeners();
+    };
+  });
 
   const goToPreviousPage = () => {
-    if (currentIndex !== 0) {
-      currentIndex -= 1;
-      flatListRef?.current?.scrollToIndex({
-        animated: true,
-        index: currentIndex,
-      });
-    }
+    const isFirst = currentIndex.current === 0;
+    currentIndex.current = isFirst ? IMAGES.length - 1 : --currentIndex.current;
+
+    flatListRef?.current?.scrollToIndex({
+      animated: true,
+      index: currentIndex.current,
+    });
   };
 
   const goToNextPage = () => {
-    if (currentIndex !== IMAGES.length - 1) {
-      currentIndex += 1;
-      flatListRef?.current?.scrollToIndex({
-        animated: true,
-        index: currentIndex,
-      });
-    }
+    const isTheLast = currentIndex.current === IMAGES.length - 1;
+    currentIndex.current = isTheLast ? 0 : ++currentIndex.current;
+
+    flatListRef?.current?.scrollToIndex({
+      animated: true,
+      index: currentIndex.current,
+    });
   };
-
-  const onViewRef = React.useRef<onViewableItemsChangedType>(({changed}) => {
-    currentIndex = changed[0]?.index || 0;
-  });
-
-  const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 50});
 
   return (
     <View style={styles.container}>
@@ -64,8 +64,6 @@ export const SliderComponent = () => {
         </TouchableOpacity>
         <Animated.FlatList
           ref={flatListRef}
-          viewAreaCoveragePercentThreshold={viewConfigRef.current}
-          onViewableItemsChanged={onViewRef.current}
           data={IMAGES}
           scrollEventThrottle={16}
           keyExtractor={(_, index) => String(index)}
@@ -82,9 +80,12 @@ export const SliderComponent = () => {
             {useNativeDriver: false},
           )}
           renderItem={({item}) => (
-            <View style={styles.slideContainer}>
+            <View style={[styles.slideContainer, {width: containerWidth}]}>
               <Image
-                style={styles.image}
+                style={{
+                  width: containerWidth / 2,
+                  height: containerWidth / 2,
+                }}
                 source={{uri: item}}
                 resizeMode="contain"
               />

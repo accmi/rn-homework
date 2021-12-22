@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {useQuery} from 'react-query';
 import {
   SafeAreaView,
@@ -8,6 +8,7 @@ import {
   Pressable,
   ScrollView,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 
 import {PriceComponent} from '../../components/price';
@@ -16,20 +17,41 @@ import {SliderComponent} from '../../components/slider';
 import {getProduct} from '../../utils/API';
 
 import {styles} from './styles';
-import { colors } from '../../config/colors';
+import {colors} from '../../config/colors';
+
+const {width} = Dimensions.get('screen');
 
 enum ProductColors {
   BLUE = 'Blue',
-  RED = 'Red',
-  MOUVE = 'Mouve',
+  GREEN = 'Green',
+  ORANGE = 'Orange',
 }
+
+const getStyleForColor = (
+  color: ProductColors,
+  selectedColor: ProductColors,
+) => {
+  switch (color) {
+    case ProductColors.BLUE:
+      return selectedColor === color ? styles.btnBlueActive : null;
+    case ProductColors.GREEN:
+      return selectedColor === color ? styles.btnGreenActive : null;
+    case ProductColors.ORANGE:
+      return selectedColor === color ? styles.btnOrangeActive : null;
+    default:
+      break;
+  }
+};
 
 export const ProductScreen = () => {
   const [selectedColor, setSelectedColor] = useState(ProductColors.BLUE);
   const {data: product, isLoading} = useQuery('product', () => getProduct());
-  const colorButtonDidPress = () => {
-    //
-  };
+  const colorButtonDidPress = useCallback(
+    (color: ProductColors) => {
+      setSelectedColor(color);
+    },
+    [setSelectedColor],
+  );
 
   if (isLoading) {
     return (
@@ -43,7 +65,7 @@ export const ProductScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.sliderContainer}>
-          <SliderComponent />
+          <SliderComponent containerWidth={width - 30 - 30} />
         </View>
         <View style={styles.namePriceContainer}>
           <Text style={styles.name}>{product?.attributes.name}</Text>
@@ -56,19 +78,28 @@ export const ProductScreen = () => {
           <Text style={styles.colorTitle}>Select Color</Text>
           <View style={styles.colorList}>
             <Pressable
-              style={styles.colorContainer}
-              onPress={colorButtonDidPress}>
+              style={[
+                styles.colorContainer,
+                getStyleForColor(ProductColors.BLUE, selectedColor),
+              ]}
+              onPress={colorButtonDidPress.bind(null, ProductColors.BLUE)}>
               <Text style={styles.colorText}>{ProductColors.BLUE}</Text>
             </Pressable>
             <Pressable
-              style={styles.colorContainer}
-              onPress={colorButtonDidPress}>
-              <Text style={styles.colorText}>{ProductColors.RED}</Text>
+              style={[
+                styles.colorContainer,
+                getStyleForColor(ProductColors.GREEN, selectedColor),
+              ]}
+              onPress={colorButtonDidPress.bind(null, ProductColors.GREEN)}>
+              <Text style={styles.colorText}>{ProductColors.GREEN}</Text>
             </Pressable>
             <Pressable
-              style={styles.colorContainer}
-              onPress={colorButtonDidPress}>
-              <Text style={styles.colorText}>{ProductColors.MOUVE}</Text>
+              style={[
+                styles.colorContainer,
+                getStyleForColor(ProductColors.ORANGE, selectedColor),
+              ]}
+              onPress={colorButtonDidPress.bind(null, ProductColors.ORANGE)}>
+              <Text style={styles.colorText}>{ProductColors.ORANGE}</Text>
             </Pressable>
           </View>
         </View>
