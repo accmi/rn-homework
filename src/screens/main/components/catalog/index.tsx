@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Image, FlatList} from 'react-native';
-import {PriceComponent} from '../../../../components/price';
+import {FlatList} from 'react-native';
 import {ProductsResponseProduct} from '../../../../utils/API';
+import {Product} from './product';
 
 import {styles} from './styles';
 
@@ -22,23 +22,7 @@ export const CatalogComponent: React.FC<CatalogComponentProps> = ({
       keyExtractor={item => item.id}
       contentInset={{bottom: 50}}
       refreshControl={refreshControll}
-      renderItem={({item}) => (
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            source={{
-              uri: `https://picsum.photos/id/${item.id}/200/300`,
-            }}
-          />
-          <View style={styles.nameContainer}>
-            <Text numberOfLines={1} style={styles.name}>
-              {item.attributes.name}
-            </Text>
-          </View>
-          <PriceComponent price={Number(item.attributes.price)} />
-        </View>
-      )}
+      renderItem={({item}) => <Product product={item} />}
     />
   );
 };

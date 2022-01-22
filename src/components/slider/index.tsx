@@ -1,10 +1,11 @@
 import React, {useRef, useEffect, FC} from 'react';
-import {Animated, FlatList, Image, View, TouchableOpacity} from 'react-native';
+import {Animated, FlatList, View, TouchableOpacity} from 'react-native';
 import {Indicator} from './indicator';
 import {styles} from './styles';
 
 import LeftArrow from '../../assets/leftArrow.svg';
 import RightArrow from '../../assets/rightArrow.svg';
+import {SliderItem} from './item';
 
 const IMAGES = [
   'https://picsum.photos/250/250',
@@ -80,16 +81,12 @@ export const SliderComponent: FC<SliderComponentProps> = ({containerWidth}) => {
             {useNativeDriver: false},
           )}
           renderItem={({item}) => (
-            <View style={[styles.slideContainer, {width: containerWidth}]}>
-              <Image
-                style={{
-                  width: containerWidth / 2,
-                  height: containerWidth / 2,
-                }}
-                source={{uri: item}}
-                resizeMode="contain"
-              />
-            </View>
+            <SliderItem
+              containerWidth={containerWidth}
+              width={containerWidth / 2}
+              height={containerWidth / 2}
+              source={{uri: item}}
+            />
           )}
           showsHorizontalScrollIndicator={false}
           horizontal

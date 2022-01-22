@@ -18,6 +18,7 @@ import {getProduct} from '../../utils/API';
 
 import {styles} from './styles';
 import {colors} from '../../config/colors';
+import { MainButton } from '../../components/mainButton';
 
 const {width} = Dimensions.get('screen');
 
@@ -113,9 +114,7 @@ export const ProductScreen = () => {
           </Text>
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.addBtn}>
-        <Text style={styles.addBtnText}>ADD TO CARD</Text>
-      </TouchableOpacity>
+      <MainButton text="ADD TO CARD" onPress={() => {}} />
     </SafeAreaView>
   );
 };

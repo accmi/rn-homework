@@ -9,13 +9,10 @@ interface IndicatorProps {
 
 const {width} = Dimensions.get('screen');
 
-export const Indicator: FC<IndicatorProps> = ({
-  numeberOfDots: length,
-  scrollX,
-}) => {
+export const Indicator: FC<IndicatorProps> = ({numeberOfDots, scrollX}) => {
   return (
     <View style={styles.container}>
-      {Array.from({length}).map((_, i) => {
+      {Array.from({length: numeberOfDots}).map((_, i) => {
         const backgroundColor = scrollX.interpolate({
           inputRange: [(i - 1) * width, i * width, (i + 1) * width],
           outputRange: [

@@ -18,20 +18,4 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: colors.lightGray,
-    borderWidth: 1,
-    padding: 2,
-    borderRadius: 4,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-  },
-  searchInput: {
-    fontSize: 15,
-    lineHeight: 20,
-    flex: 1,
-    marginLeft: 5,
-  },
 });

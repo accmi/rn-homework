@@ -2,6 +2,7 @@ import React from 'react';
 import {View, TextInput} from 'react-native';
 
 import SearchIcon from '../../../../assets/search.svg';
+import {Input} from '../../../../components/input';
 
 import {styles} from './styles';
 
@@ -16,14 +17,11 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({
 }) => (
   <View style={styles.shadowContainer}>
     <View style={styles.searchContainer}>
-      <View style={styles.inputContainer}>
-        <SearchIcon width="17" height="17" />
-        <TextInput
-          style={styles.searchInput}
-          value={value}
-          onChangeText={searchDidChange}
-        />
-      </View>
+      <Input
+        Icon={<SearchIcon width="17" height="17" />}
+        value={value}
+        searchDidChange={searchDidChange}
+      />
     </View>
   </View>
 );
