@@ -44,11 +44,12 @@ export const getProducts = (): Promise<ProductsResponse> => {
     }));
 };
 
-export const getProduct = (
-  //TODO: After getting navigation setup remove default value
-  slug: string = 'denim-shirt',
-): Promise<ProductsResponseProduct> => {
-  return fetch(`${API_PRODUCT}${slug}`)
+export const getProduct = (slug: string): Promise<ProductsResponseProduct> => {
+  const preparedUrlSlug = encodeURIComponent(slug)
+    .replace('%20', '-')
+    .toLowerCase();
+
+  return fetch(`${API_PRODUCT}${preparedUrlSlug}`)
     .then(response => response.json())
     .then(response => response.data);
 };

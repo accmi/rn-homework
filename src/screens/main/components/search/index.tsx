@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput} from 'react-native';
+import {View} from 'react-native';
 
 import SearchIcon from '../../../../assets/search.svg';
 import {Input} from '../../../../components/input';

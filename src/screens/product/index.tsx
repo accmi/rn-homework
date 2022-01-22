@@ -1,10 +1,9 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, FC} from 'react';
 import {useQuery} from 'react-query';
 import {
   SafeAreaView,
   Text,
   View,
-  TouchableOpacity,
   Pressable,
   ScrollView,
   ActivityIndicator,
@@ -18,7 +17,12 @@ import {getProduct} from '../../utils/API';
 
 import {styles} from './styles';
 import {colors} from '../../config/colors';
-import { MainButton } from '../../components/mainButton';
+import {MainButton} from '../../components/mainButton';
+import {
+  MainStackParamList,
+  NavigationProps,
+} from '../../navigation/mainNavigator';
+import {Routes} from '../../config/constants';
 
 const {width} = Dimensions.get('screen');
 
@@ -44,9 +48,17 @@ const getStyleForColor = (
   }
 };
 
-export const ProductScreen = () => {
+export const ProductScreen: FC<
+  NavigationProps<MainStackParamList, Routes.Product>
+> = ({
+  route: {
+    params: {name},
+  },
+}) => {
   const [selectedColor, setSelectedColor] = useState(ProductColors.BLUE);
-  const {data: product, isLoading} = useQuery('product', () => getProduct());
+  const {data: product, isLoading} = useQuery('product', () =>
+    getProduct(name),
+  );
   const colorButtonDidPress = useCallback(
     (color: ProductColors) => {
       setSelectedColor(color);
