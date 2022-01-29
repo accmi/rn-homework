@@ -51,6 +51,7 @@ const getStyleForColor = (
 export const ProductScreen: FC<
   NavigationProps<MainStackParamList, Routes.Product>
 > = ({
+  navigation,
   route: {
     params: {name},
   },
@@ -126,7 +127,12 @@ export const ProductScreen: FC<
           </Text>
         </View>
       </ScrollView>
-      <MainButton text="ADD TO CARD" onPress={() => {}} />
+      <MainButton
+        text="ADD TO CARD"
+        onPress={() => {
+          navigation.navigate(Routes.LoginToContinueModal);
+        }}
+      />
     </SafeAreaView>
   );
 };

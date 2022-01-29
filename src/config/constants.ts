@@ -10,5 +10,10 @@ export enum Routes {
   Home = 'Home Screen',
   Product = 'Product Screen',
 
+  // MODALS
+  SelectColorErrorModal = 'Select color error modal',
+  ProductAddedModal = 'Product added',
+  LoginToContinueModal = 'Login to continue',
+
   Profile = 'My Profile',
 }

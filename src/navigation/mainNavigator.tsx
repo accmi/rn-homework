@@ -1,13 +1,16 @@
 import React from 'react';
-
 import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {NavigationContainer, ParamListBase} from '@react-navigation/native';
 import {Routes} from '../config/constants';
 import {ProductScreen} from '../screens/product';
 import {DrawerNavigator} from './drawerNavigator';
+import {SelectColorErrorScreen} from '../screens/modals/selectColorError';
+import {ProductAddedScreen} from '../screens/modals/productAdded';
+import {LoginToContinueScreen} from '../screens/modals/loginToContinue';
 
 export type NavigationProps<
   P extends ParamListBase,
@@ -16,12 +19,15 @@ export type NavigationProps<
 
 export type MainStackParamList = {
   [Routes.Main]: undefined;
+  [Routes.SelectColorErrorModal]: undefined;
+  [Routes.ProductAddedModal]: undefined;
+  [Routes.LoginToContinueModal]: undefined;
   [Routes.Product]: {
     name: string;
   };
 };
 
-const Stack = createNativeStackNavigator<MainStackParamList>();
+const Stack = createStackNavigator<MainStackParamList>();
 
 export const MainNavigator = () => (
   <NavigationContainer>
@@ -38,6 +44,39 @@ export const MainNavigator = () => (
         component={ProductScreen}
         options={{
           title: '',
+          headerBackTitle: ' ',
+        }}
+      />
+      <Stack.Screen
+        name={Routes.SelectColorErrorModal}
+        component={SelectColorErrorScreen}
+        options={{
+          presentation: 'transparentModal',
+          headerShown: false,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forScaleFromCenterAndroid,
+        }}
+      />
+
+      <Stack.Screen
+        name={Routes.ProductAddedModal}
+        component={ProductAddedScreen}
+        options={{
+          presentation: 'transparentModal',
+          headerShown: false,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forScaleFromCenterAndroid,
+        }}
+      />
+
+      <Stack.Screen
+        name={Routes.LoginToContinueModal}
+        component={LoginToContinueScreen}
+        options={{
+          presentation: 'transparentModal',
+          headerShown: false,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forScaleFromCenterAndroid,
         }}
       />
     </Stack.Navigator>
