@@ -8,6 +8,7 @@ import FilledCartIcon from '../assets/filledCart.svg';
 import EnvelopeIcon from '../assets/envelope.svg';
 import PhoneIcon from '../assets/phone.svg';
 import ShareIcon from '../assets/share.svg';
+import HomeIcon from '../assets/home.svg';
 
 export interface DrawerSectionsType {
   title?: string;
@@ -23,6 +24,11 @@ export const drawerSections: DrawerSectionsType[] = [
     title: 'My Account',
     items: [
       {
+        label: 'Home',
+        icon: <HomeIcon />,
+        route: Routes.Main,
+      },
+      {
         label: 'My Profile',
         icon: <ProfileIcon />,
         route: Routes.Profile,
@@ -35,7 +41,7 @@ export const drawerSections: DrawerSectionsType[] = [
       {
         label: 'My Cart',
         icon: <CartIcon />,
-        route: Routes.Profile,
+        route: Routes.CartNavigator,
       },
       {
         label: 'My Orders',

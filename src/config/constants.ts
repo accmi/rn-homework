@@ -10,10 +10,19 @@ export enum Routes {
   Home = 'Home Screen',
   Product = 'Product Screen',
 
+  CartNavigator = 'Cart Navigator',
+  CartLoginFirst = 'Cart login first Screen',
+  Cart = 'Cart Screen',
+
   // MODALS
   SelectColorErrorModal = 'Select color error modal',
   ProductAddedModal = 'Product added',
   LoginToContinueModal = 'Login to continue',
 
   Profile = 'My Profile',
+}
+
+export enum AsyncStorageKeys {
+  UserToken = 'UserToken',
+  CartItems = 'CartItems',
 }

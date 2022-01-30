@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, FC} from 'react';
+import React, {useRef, useEffect, FC, LegacyRef} from 'react';
 import {Animated, FlatList, View, TouchableOpacity} from 'react-native';
 import {Indicator} from './indicator';
 import {styles} from './styles';
@@ -20,7 +20,7 @@ interface SliderComponentProps {
 
 export const SliderComponent: FC<SliderComponentProps> = ({containerWidth}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
-  const flatListRef = useRef<FlatList<string> | null>();
+  const flatListRef = useRef<FlatList<string>>().current;
   const currentIndex = useRef(0);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const SliderComponent: FC<SliderComponentProps> = ({containerWidth}) => {
     const isFirst = currentIndex.current === 0;
     currentIndex.current = isFirst ? IMAGES.length - 1 : --currentIndex.current;
 
-    flatListRef?.current?.scrollToIndex({
+    flatListRef?.scrollToIndex({
       animated: true,
       index: currentIndex.current,
     });
@@ -51,7 +51,7 @@ export const SliderComponent: FC<SliderComponentProps> = ({containerWidth}) => {
     const isTheLast = currentIndex.current === IMAGES.length - 1;
     currentIndex.current = isTheLast ? 0 : ++currentIndex.current;
 
-    flatListRef?.current?.scrollToIndex({
+    flatListRef?.scrollToIndex({
       animated: true,
       index: currentIndex.current,
     });

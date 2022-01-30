@@ -11,6 +11,9 @@ import {DrawerNavigator} from './drawerNavigator';
 import {SelectColorErrorScreen} from '../screens/modals/selectColorError';
 import {ProductAddedScreen} from '../screens/modals/productAdded';
 import {LoginToContinueScreen} from '../screens/modals/loginToContinue';
+import {HeaderBack} from '../components/headerBack';
+
+import {colors} from '../config/colors';
 
 export type NavigationProps<
   P extends ParamListBase,
@@ -42,10 +45,17 @@ export const MainNavigator = () => (
       <Stack.Screen
         name={Routes.Product}
         component={ProductScreen}
-        options={{
+        options={({navigation}) => ({
           title: '',
           headerBackTitle: ' ',
-        }}
+          headerStyle: {
+            backgroundColor: colors.blue,
+          },
+          headerTitleStyle: {
+            color: colors.white,
+          },
+          headerLeft: () => <HeaderBack onPress={navigation.goBack} />,
+        })}
       />
       <Stack.Screen
         name={Routes.SelectColorErrorModal}
