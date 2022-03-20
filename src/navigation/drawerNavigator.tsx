@@ -4,11 +4,13 @@ import {Routes} from '../config/constants';
 import {MainScreen} from '../screens/main';
 import {Menu} from '../components/menu';
 import {CartNavigator} from './cartNavigator';
-import {HumburgerComponent} from '../components/humburger';
 
 import {drawerSections} from './drawerSections';
 import {colors} from '../config/colors';
-import {HeaderRight} from '../components/headerRight';
+import {HeaderButton} from '../components/headerButton';
+
+import CartWhiteIcon from '../assets/cartWhite.svg';
+import HumburgerIcon from '../assets/humburger.svg';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,9 +27,17 @@ export const DrawerNavigator = () => {
           color: colors.white,
         },
         headerLeft: () => (
-          <HumburgerComponent onPress={navigation.openDrawer} />
+          <HeaderButton
+            onPress={navigation.openDrawer}
+            icon={<HumburgerIcon />}
+          />
         ),
-        headerRight: () => <HeaderRight onPress={navigation.navigate} />,
+        headerRight: () => (
+          <HeaderButton
+            onPress={navigation.navigate}
+            icon={<CartWhiteIcon />}
+          />
+        ),
       })}>
       <Drawer.Screen
         name={Routes.Main}

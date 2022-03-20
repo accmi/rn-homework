@@ -1,20 +1,20 @@
 import React, {FC, useCallback} from 'react';
 import {TouchableOpacity} from 'react-native';
-import BackIcon from '../../assets/back.svg';
 import {styles} from './styles';
 
-interface HeaderBackProps {
+interface HeaderButtonProps {
   onPress(): void;
+  icon: JSX.Element;
 }
 
-export const HeaderBack: FC<HeaderBackProps> = ({onPress}) => {
+export const HeaderButton: FC<HeaderButtonProps> = ({onPress, icon}) => {
   const onBackPress = useCallback(() => {
     onPress();
   }, [onPress]);
 
   return (
     <TouchableOpacity style={styles.container} onPress={onBackPress}>
-      <BackIcon />
+      {icon}
     </TouchableOpacity>
   );
 };

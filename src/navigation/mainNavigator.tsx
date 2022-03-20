@@ -11,9 +11,10 @@ import {DrawerNavigator} from './drawerNavigator';
 import {SelectColorErrorScreen} from '../screens/modals/selectColorError';
 import {ProductAddedScreen} from '../screens/modals/productAdded';
 import {LoginToContinueScreen} from '../screens/modals/loginToContinue';
-import {HeaderBack} from '../components/headerBack';
+import {HeaderButton} from '../components/headerButton';
 
 import {colors} from '../config/colors';
+import BackIcon from '../assets/back.svg';
 
 export type NavigationProps<
   P extends ParamListBase,
@@ -54,7 +55,9 @@ export const MainNavigator = () => (
           headerTitleStyle: {
             color: colors.white,
           },
-          headerLeft: () => <HeaderBack onPress={navigation.goBack} />,
+          headerLeft: () => (
+            <HeaderButton onPress={navigation.goBack} icon={<BackIcon />} />
+          ),
         })}
       />
       <Stack.Screen
