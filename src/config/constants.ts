@@ -20,6 +20,12 @@ export enum Routes {
   LoginToContinueModal = 'Login to continue',
 
   Profile = 'My Profile',
+
+  // AUTH
+  AuthNavigator = 'Auth Navigator',
+  Login = 'Login Screen',
+  SignUp = 'Sign Up Screen',
+  ForgotPassword = 'Forgot Password Screen',
 }
 
 export enum AsyncStorageKeys {

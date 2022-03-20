@@ -11,4 +11,5 @@ export const colors = {
   indicatorGray: '#C3C3C3',
   green: '#A5DC86',
   orange: '#FEB96B',
+  bgGrey: '#f2f2f2',
 };

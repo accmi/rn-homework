@@ -16,10 +16,17 @@ interface LoginToContinueScreenProps
   extends NavigationProps<MainStackParamList, Routes.SelectColorErrorModal> {}
 
 export const LoginToContinueScreen: FC<LoginToContinueScreenProps> = ({
-  navigation: {goBack},
+  navigation: {goBack, navigate, popToTop},
 }) => {
   const onOKButtonPress = () => {
     goBack();
+  };
+
+  const onLoginButtonPress = () => {
+    popToTop();
+    navigate(Routes.AuthNavigator, {
+      screen: Routes.Login,
+    });
   };
 
   return (
@@ -32,7 +39,7 @@ export const LoginToContinueScreen: FC<LoginToContinueScreenProps> = ({
           key="login"
           containerStyle={styles.btn}
           text="LOGIN"
-          onPress={onOKButtonPress}
+          onPress={onLoginButtonPress}
         />,
         <MainButton
           key="signup"

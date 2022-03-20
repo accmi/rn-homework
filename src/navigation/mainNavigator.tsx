@@ -8,6 +8,7 @@ import {NavigationContainer, ParamListBase} from '@react-navigation/native';
 import {Routes} from '../config/constants';
 import {ProductScreen} from '../screens/product';
 import {DrawerNavigator} from './drawerNavigator';
+import {AuthNavigator} from './authNavigator';
 import {SelectColorErrorScreen} from '../screens/modals/selectColorError';
 import {ProductAddedScreen} from '../screens/modals/productAdded';
 import {LoginToContinueScreen} from '../screens/modals/loginToContinue';
@@ -26,6 +27,9 @@ export type MainStackParamList = {
   [Routes.SelectColorErrorModal]: undefined;
   [Routes.ProductAddedModal]: undefined;
   [Routes.LoginToContinueModal]: undefined;
+  [Routes.AuthNavigator]: {
+    screen: Routes.Login | Routes.SignUp | Routes.ForgotPassword;
+  };
   [Routes.Product]: {
     name: string;
   };
@@ -90,6 +94,21 @@ export const MainNavigator = () => (
           headerShown: false,
           cardStyleInterpolator:
             CardStyleInterpolators.forScaleFromCenterAndroid,
+        }}
+      />
+      <Stack.Screen
+        name={Routes.AuthNavigator}
+        component={AuthNavigator}
+        options={{
+          title: '',
+          headerBackTitle: ' ',
+          headerStyle: {
+            backgroundColor: colors.white,
+          },
+          headerTitleStyle: {
+            color: colors.white,
+          },
+          headerLeft: () => null,
         }}
       />
     </Stack.Navigator>
