@@ -8,11 +8,13 @@ import {styles} from './styles';
 interface CatalogComponentProps {
   products: ProductsResponseProduct[];
   refreshControll: React.ReactElement;
+  navigateToProductScreen(id: string): void;
 }
 
 export const CatalogComponent: React.FC<CatalogComponentProps> = ({
   products,
   refreshControll,
+  navigateToProductScreen,
 }) => {
   return (
     <FlatList
@@ -22,7 +24,9 @@ export const CatalogComponent: React.FC<CatalogComponentProps> = ({
       keyExtractor={item => item.id}
       contentInset={{bottom: 50}}
       refreshControl={refreshControll}
-      renderItem={({item}) => <Product product={item} />}
+      renderItem={({item}) => (
+        <Product product={item} onPress={navigateToProductScreen} />
+      )}
     />
   );
 };
