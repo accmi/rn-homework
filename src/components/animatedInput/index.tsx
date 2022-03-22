@@ -1,4 +1,4 @@
-import React, {FC, useRef} from 'react';
+import React, {FC, useEffect, useRef} from 'react';
 import {View, Text, TextInput, Animated, Pressable} from 'react-native';
 
 import {styles} from './styles';
@@ -7,6 +7,7 @@ interface AnimatedInputProps {
   placeholder: string;
   onChangeText(value: string): void;
   value: string;
+  isSecure: boolean;
 }
 
 const initialY = 10;
@@ -16,6 +17,7 @@ export const AnimatedInput: FC<AnimatedInputProps> = ({
   placeholder,
   onChangeText,
   value,
+  isSecure,
 }) => {
   const placeholderY = useRef(new Animated.Value(initialY)).current;
   const textInputRef = useRef<TextInput>();
@@ -24,20 +26,28 @@ export const AnimatedInput: FC<AnimatedInputProps> = ({
     animatePlacholder(false);
   };
   const onBlur = () => {
-    animatePlacholder(true);
+    if (!value.length) {
+      animatePlacholder(true);
+    }
   };
 
   const onPlaceholderPress = () => {
     textInputRef.current?.focus();
   };
 
-  const animatePlacholder = (isFocused: boolean) => {
+  const animatePlacholder = (isFocused: boolean, duration = 200) => {
     Animated.timing(placeholderY, {
       toValue: isFocused ? initialY : animatedY,
-      duration: 200,
+      duration,
       useNativeDriver: false,
     }).start();
   };
+
+  useEffect(() => {
+    if (value.length) {
+      animatePlacholder(false, 0);
+    }
+  });
 
   return (
     <View style={styles.container}>
@@ -66,6 +76,7 @@ export const AnimatedInput: FC<AnimatedInputProps> = ({
         onChangeText={onChangeText}
         onFocus={onFocus}
         onBlur={onBlur}
+        secureTextEntry={isSecure}
       />
     </View>
   );

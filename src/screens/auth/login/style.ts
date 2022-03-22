@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import {colors} from '../../../config/colors';
 
 export const styles = StyleSheet.create({
+  safeAriaContainer: {flex: 1},
   container: {
     flex: 1,
     justifyContent: 'space-between',
@@ -38,5 +39,8 @@ export const styles = StyleSheet.create({
   },
   skipBtn: {
     backgroundColor: colors.lightGray,
+  },
+  btn: {
+    paddingHorizontal: 30,
   },
 });
