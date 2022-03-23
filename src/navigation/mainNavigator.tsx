@@ -16,6 +16,7 @@ import {HeaderButton} from '../components/headerButton';
 
 import {colors} from '../config/colors';
 import BackIcon from '../assets/back.svg';
+import {ErrorLoginScreen} from '../screens/auth/login/errorLogin';
 
 export type NavigationProps<
   P extends ParamListBase,
@@ -29,6 +30,9 @@ export type MainStackParamList = {
   [Routes.LoginToContinueModal]: undefined;
   [Routes.AuthNavigator]: {
     screen: Routes.Login | Routes.SignUp | Routes.ForgotPassword;
+  };
+  [Routes.AuthErrorModal]: {
+    tryAgainCallback(): void;
   };
   [Routes.Product]: {
     name: string;
@@ -89,6 +93,16 @@ export const MainNavigator = () => (
       <Stack.Screen
         name={Routes.LoginToContinueModal}
         component={LoginToContinueScreen}
+        options={{
+          presentation: 'transparentModal',
+          headerShown: false,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forScaleFromCenterAndroid,
+        }}
+      />
+      <Stack.Screen
+        name={Routes.AuthErrorModal}
+        component={ErrorLoginScreen}
         options={{
           presentation: 'transparentModal',
           headerShown: false,

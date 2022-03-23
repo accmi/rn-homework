@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import {useMutation} from 'react-query';
 import {AnimatedErrorHint} from '../../../components/animatedErrorHint';
@@ -9,29 +9,50 @@ import {
 } from '../../../components/loadingButton';
 import {MainButton} from '../../../components/mainButton';
 import {Routes} from '../../../config/constants';
+import {
+  MainStackParamList,
+  NavigationProps,
+} from '../../../navigation/mainNavigator';
 import {AuthResponse, signIn} from '../../../utils/API';
 
 import {styles} from './style';
 
-export const LoginScreen = () => {
+interface LoginScreenProps
+  extends NavigationProps<MainStackParamList, Routes.Login> {}
+
+export const LoginScreen: FC<LoginScreenProps> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loadingButtonStatus, setLoadingButtonStatus] = useState(
     LoadingButtonStatus.initial,
   );
-  const {mutate, isError, isLoading, isSuccess} = useMutation<
-    AuthResponse,
+  const {mutate, isError, isLoading, isSuccess, error, reset} = useMutation<
+    AuthResponse | Error,
     Error,
     {email: string; password: string}
-  >(({email, password}) => signIn(email, password));
+  >(({email: emailArg, password: passwordArg}) =>
+    signIn(emailArg, passwordArg),
+  );
 
-  const onLoginPress = () => {
+  const onLoginPress = useCallback(() => {
     setLoadingButtonStatus(LoadingButtonStatus.loading);
     setTimeout(() => mutate({email, password}), 1000);
-  };
+  }, [email, mutate, password]);
+
+  const tryAgainCallback = useCallback(() => {
+    navigation.goBack();
+    reset();
+    onLoginPress();
+  }, [navigation, onLoginPress, reset]);
 
   useEffect(() => {
+    console.log(isSuccess);
     if (isError) {
+      if (error?.message === 'Network request failed') {
+        navigation.navigate(Routes.AuthErrorModal, {
+          tryAgainCallback,
+        });
+      }
       setLoadingButtonStatus(LoadingButtonStatus.error);
       return;
     }
@@ -43,15 +64,35 @@ export const LoginScreen = () => {
 
     if (isSuccess) {
       setLoadingButtonStatus(LoadingButtonStatus.success);
+      setTimeout(() => {
+        navigation.goBack();
+      }, 400);
       return;
     }
-  }, [isError, isLoading, isSuccess]);
+  }, [isError, isLoading, isSuccess, error, navigation, tryAgainCallback]);
 
-  useEffect(() => {
+  const updateStatus = useCallback(() => {
     if (loadingButtonStatus !== LoadingButtonStatus.initial) {
+      reset();
       setLoadingButtonStatus(LoadingButtonStatus.initial);
     }
-  }, [email, password]);
+  }, [loadingButtonStatus, reset]);
+
+  const onEmailTextChange = useCallback(
+    (e: string) => {
+      updateStatus();
+      setEmail(e);
+    },
+    [updateStatus],
+  );
+
+  const onPasswordTextChange = useCallback(
+    (e: string) => {
+      updateStatus();
+      setPassword(e);
+    },
+    [updateStatus],
+  );
 
   const isErrorHintsShown = loadingButtonStatus === LoadingButtonStatus.error;
 
@@ -67,7 +108,7 @@ export const LoginScreen = () => {
             <AnimatedInput
               placeholder="Email Address"
               value={email}
-              onChangeText={e => setEmail(e)}
+              onChangeText={onEmailTextChange}
               isSecure={false}
             />
             <AnimatedErrorHint
@@ -78,7 +119,7 @@ export const LoginScreen = () => {
             <AnimatedInput
               placeholder="Password"
               value={password}
-              onChangeText={e => setPassword(e)}
+              onChangeText={onPasswordTextChange}
               isSecure={true}
             />
             <AnimatedErrorHint

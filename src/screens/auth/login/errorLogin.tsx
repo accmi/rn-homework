@@ -10,23 +10,19 @@ import {Routes} from '../../../config/constants';
 import {styles} from './style';
 import ExclamationIcon from '../../../assets/exclamation.svg';
 
-const text = 'Please login to add product \n in your cart';
+const text = 'Network connection appears to have been corupted';
 
-interface LoginToContinueScreenProps
-  extends NavigationProps<MainStackParamList, Routes.SelectColorErrorModal> {}
+interface ErrorLoginScreenProps
+  extends NavigationProps<MainStackParamList, Routes.AuthErrorModal> {}
 
-export const ErrorLoginScreen: FC<LoginToContinueScreenProps> = ({
-  navigation: {goBack, navigate, popToTop},
+export const ErrorLoginScreen: FC<ErrorLoginScreenProps> = ({
+  navigation: {goBack},
+  route: {
+    params: {tryAgainCallback},
+  },
 }) => {
-  const onOKButtonPress = () => {
+  const onCanclePress = () => {
     goBack();
-  };
-
-  const onLoginButtonPress = () => {
-    popToTop();
-    navigate(Routes.AuthNavigator, {
-      screen: Routes.Login,
-    });
   };
 
   return (
@@ -36,16 +32,16 @@ export const ErrorLoginScreen: FC<LoginToContinueScreenProps> = ({
       text={text}
       buttons={[
         <MainButton
-          key="login"
+          key="tryagain"
           containerStyle={styles.btn}
-          text="LOGIN"
-          onPress={onLoginButtonPress}
+          text="TRY AGAIN"
+          onPress={tryAgainCallback}
         />,
         <MainButton
-          key="signup"
+          key="cancel"
           containerStyle={styles.btn}
-          text="SIGN UP"
-          onPress={onOKButtonPress}
+          text="CANCEL"
+          onPress={onCanclePress}
         />,
       ]}
     />

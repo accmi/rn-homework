@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef} from 'react';
+import React, {createRef, FC, useEffect, useRef} from 'react';
 import {View, Text, TextInput, Animated, Pressable} from 'react-native';
 
 import {styles} from './styles';
@@ -20,7 +20,7 @@ export const AnimatedInput: FC<AnimatedInputProps> = ({
   isSecure,
 }) => {
   const placeholderY = useRef(new Animated.Value(initialY)).current;
-  const textInputRef = useRef<TextInput>();
+  const textInputRef = createRef<TextInput>();
 
   const onFocus = () => {
     animatePlacholder(false);

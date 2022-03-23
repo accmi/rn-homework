@@ -19,6 +19,7 @@ export enum Routes {
   SelectColorErrorModal = 'Select color error modal',
   ProductAddedModal = 'Product added',
   LoginToContinueModal = 'Login to continue',
+  AuthErrorModal = 'Auth error modal',
 
   Profile = 'My Profile',
 
