@@ -2,6 +2,7 @@ export const API_PRODUCTS =
   'https://demo.spreecommerce.org/api/v2/storefront/products';
 export const API_PRODUCT =
   'https://demo.spreecommerce.org/api/v2/storefront/products/';
+export const API_AUTH = 'https://demo.spreecommerce.org/spree_oauth/token';
 
 export enum Routes {
   Main = 'Main navigator',
@@ -18,8 +19,15 @@ export enum Routes {
   SelectColorErrorModal = 'Select color error modal',
   ProductAddedModal = 'Product added',
   LoginToContinueModal = 'Login to continue',
+  AuthErrorModal = 'Auth error modal',
 
   Profile = 'My Profile',
+
+  // AUTH
+  AuthNavigator = 'Auth Navigator',
+  Login = 'Login Screen',
+  SignUp = 'Sign Up Screen',
+  ForgotPassword = 'Forgot Password Screen',
 }
 
 export enum AsyncStorageKeys {

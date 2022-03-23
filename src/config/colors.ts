@@ -9,6 +9,10 @@ export const colors = {
   blue: '#00A8F3',
   btnBlue: '#008ACE',
   indicatorGray: '#C3C3C3',
+  transparentGreen: '#a5dc8682',
   green: '#A5DC86',
   orange: '#FEB96B',
+  bgGrey: '#f2f2f2',
+  transparentRed: '#ff000063',
+  red: '#ff0000b5',
 };

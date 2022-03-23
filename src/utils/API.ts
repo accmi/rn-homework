@@ -1,4 +1,4 @@
-import {API_PRODUCT, API_PRODUCTS} from '../config/constants';
+import {API_PRODUCT, API_PRODUCTS, API_AUTH} from '../config/constants';
 
 export interface ProductsResponseProduct {
   attributes: {
@@ -35,6 +35,10 @@ export interface ProductsResponse {
   meta: ProductsResponseMeta;
 }
 
+export interface AuthResponse {
+  token: string;
+}
+
 export const getProducts = (): Promise<ProductsResponse> => {
   return fetch(API_PRODUCTS)
     .then(response => response.json())
@@ -52,4 +56,33 @@ export const getProduct = (slug: string): Promise<ProductsResponseProduct> => {
   return fetch(`${API_PRODUCT}${preparedUrlSlug}`)
     .then(response => response.json())
     .then(response => response.data);
+};
+
+export const signIn = (
+  email: string,
+  password: string,
+): Promise<AuthResponse | Error> => {
+  const data = {
+    grant_type: 'password',
+    username: email,
+    password: password,
+  };
+
+  return fetch(API_AUTH, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(response => {
+      const randomNumber = Math.random();
+
+      if (randomNumber > 0.4) {
+        throw new Error(response.error_description);
+      }
+
+      return {token: 'aslkjdfhalksjhdflkjahsdfkljhlkj'};
+    });
 };

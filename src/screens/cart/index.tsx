@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {Routes} from '../../config/constants';
 import {
@@ -12,6 +12,7 @@ import {MainButton} from '../../components/mainButton';
 import {Safety} from './components/safety';
 
 import {styles} from './styles';
+import {FireworksComponent} from '../../components/fireworks';
 
 interface CartScreenProps
   extends NavigationProps<MainStackParamList, Routes.Cart> {}
@@ -78,6 +79,7 @@ export const CartScreen: FC<CartScreenProps> = ({navigation: {navigate}}) => {
   const goBackToShoping = useCallback(() => {
     navigate(Routes.Main);
   }, [navigate]);
+  const [isFireworkShown, setIsFireworkShown] = useState(false);
 
   if (isCartEmpty) {
     return <EmptyCart goBackToShopping={goBackToShoping} />;
@@ -92,7 +94,12 @@ export const CartScreen: FC<CartScreenProps> = ({navigation: {navigate}}) => {
       case ItemKind.Safety:
         return <Safety />;
       default:
-        return <MainButton text="PROCEED TO PAYMENT" onPress={() => {}} />;
+        return (
+          <MainButton
+            text="PROCEED TO PAYMENT"
+            onPress={() => setIsFireworkShown(true)}
+          />
+        );
     }
   };
 
@@ -104,6 +111,9 @@ export const CartScreen: FC<CartScreenProps> = ({navigation: {navigate}}) => {
         keyExtractor={(_, index) => String(index)}
         renderItem={renderItem}
       />
+      {isFireworkShown && (
+        <FireworksComponent playableTime={10000} ballsCount={50} />
+      )}
     </View>
   );
 };
